@@ -1,0 +1,19 @@
+version: "3.6"
+services:
+  web:
+    image: "gitlab/gitlab-ee:latest"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.example.com'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+        nginx['listen_port'] = 80
+    ports:
+      - "8929:80"
+      - "2224:22"
+    env_file:
+      - ".env"
+    volumes:
+      - "./${GITLAB_HOME}/config:/etc/gitlab"
+      - "./${GITLAB_HOME}/logs:/var/log/gitlab"
+      - "./${GITLAB_HOME}/data:/var/opt/gitlab"
+    shm_size: "256m"
