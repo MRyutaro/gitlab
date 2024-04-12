@@ -4,7 +4,7 @@ services:
     image: "gitlab/gitlab-ee:latest"
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://gitlab.example.com'
+        external_url 'http://127.0.0.1:8929'
         gitlab_rails['gitlab_shell_ssh_port'] = 2224
         nginx['listen_port'] = 80
     ports:
