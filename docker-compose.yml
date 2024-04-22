@@ -3,13 +3,19 @@ version: "3.6"
 services:
   gitlab:
     image: "gitlab/gitlab-ee:latest"
-    # hostname: 'gitlab.example.com'
+    container_name: "gitlab"
+    # これを'localhost'にするとdockerコンテナを起動したときにunhealthyになる
+    # hostname: localhost
     environment:
+      # external_urlとgitlab_rails['gitlab_shell_ssh_port']のポート番号はホスト側のポート番号
+      # external_urlはgit cloneするときのURLに使われるものか？
+      # http://localhost:8929/にするとunhealthyになる
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab:8929'
         gitlab_rails['gitlab_shell_ssh_port'] = 2224
-        gitlab_rails['initial_root_password'] = ${GITLAB_ROOT_PASSWORD}
+        gitlab_rails['time_zone'] = 'Asia/Tokyo'
     ports:
+      # 8929:80にするとなぜかサーバから応答がない
       - "8929:8929"
       - "2224:22"
     env_file:
